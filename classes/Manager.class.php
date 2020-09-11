@@ -20,7 +20,20 @@ class Manager{
     // methods
     public function createTable(){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
+        $create = $this->db->prepare('CREATE TABLE IF NOT EXISTS vehicles (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            model varchar(80) NOT NULL,
+            builder varchar(80) NOT NULL,
+            fuel varchar(80) NOT NULL,
+            color varchar(80) NOT NULL,
+            kilometer int(11) NOT NULL,
+            immatriculation varchar(16) NOT NULL,
+            technical_control varchar(32) NOT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY immatriculation (immatriculation))
+            ENGINE=InnoDB DEFAULT CHARSET=utf8');
+        $create->execute();
 
     }
 
@@ -45,7 +58,10 @@ class Manager{
 
         if($this->existTable()){
 
-            // [[[[[[ à compléter ]]]]]]
+            // [[[[[[ my addition ]]]]]]
+            $read = $this-> db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' ORDER BY id ASC;');
+            $read -> execute();
+            $tableau = $read -> fetchAll(PDO::FETCH_ASSOC);
 
         }
         else
@@ -54,14 +70,30 @@ class Manager{
 
     public function truncateTable(){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
 
+        if($this->existTable()){        
+
+            $trunc = $this->db->prepare('TRUNCATE '.Manager::TABLE_NAME);
+            $trunc -> execute();
+
+        }
+        else
+            echo '<p style="text-align: center;">La table "'.Manager::TABLE_NAME.'" n\'existe pas</p>';
     }
 
     public function dropTable(){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
 
+        if($this->existTable()){        
+
+            $shunt = $this->db->prepare('DROP TABLE '.Manager::TABLE_NAME);
+            $shunt -> execute();
+
+        }
+        else
+            echo '<p style="text-align: center;">La table "'.Manager::TABLE_NAME.'" n\'existe pas</p>';
     }
 
     /**
@@ -74,6 +106,16 @@ class Manager{
 
         // [[[[[[ à compléter ]]]]]]
 
+        $sql =$this->db->prepare('INSERT INTO '.Manager::TABLE_NAME.' (model, builder, fuel, color, kilometer, immatriculation, technical_control) VALUES (:param1, :param2, :param3, :param4, :param5, :param6, :param7)');
+        $sql->bindvalue(':param1', $vehicle->getModel());
+        $sql->bindvalue(':param2', $vehicle->getBuilder());
+        $sql->bindvalue(':param3', $vehicle->getFuel());
+        $sql->bindvalue(':param4', $vehicle->getColor());
+        $sql->bindvalue(':param5', $vehicle->getKilometer());
+        $sql->bindvalue(':param6', $vehicle->getImmatriculation());
+        $sql->bindvalue(':param7', $vehicle->getTechnical_control());
+        $sql->execute();
+
     }
 
     /**
@@ -85,8 +127,9 @@ class Manager{
 
         $sql = $this->db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' LIMIT 1');
 
-        // [[[[[[ à compléter ]]]]]]
-
+        // [[[[[[ my addition ]]]]]]
+        $sql->execute();
+        
     }
 
     /**

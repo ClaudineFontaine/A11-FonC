@@ -2,6 +2,7 @@
 require_once './settings/db.php';
 require_once './classes/Manager.class.php';
 require_once './classes/Vehicle.class.php';
+require_once './vehicles.php';
 
 $manager = new Manager($db);
 ?>
@@ -61,27 +62,42 @@ $manager = new Manager($db);
             case 1: // CREATE Table
 
                 echo '<h1 '.$center.'>Créer</h1>';
-                // [[[[[[ à compléter ]]]]]]
+
+                // [[[[[[ my addition ]]]]]]
+                $manager = new Manager($db);
+                $create_table = $manager->createTable();
+
                 echo '<p '.$center.'>La table a été créée</p>';
 
                 break;
             case 2: // READ Table
 
                 echo '<h1 '.$center.'>Lire</h1>';
-                // [[[[[[ à compléter ]]]]]]
+
+                // [[[[[[ my addition ]]]]]]
+                $manager = new Manager($db);
+                $read_table = $manager->readTable();
 
                 break;
             case 3: // TRUNCATE Table
 
                 echo '<h1 '.$center.'>Vider</h1>';
-                // [[[[[[ à compléter ]]]]]]
+
+                // [[[[[[ my addition ]]]]]]
+                $manager = new Manager($db);
+                $truncate_table = $manager->truncateTable();
+
                 echo '<p '.$center.'>La table a été vidée</p>';
 
                 break;
             case 4: // DROP Table
 
                 echo '<h1 '.$center.'>Supprimer</h1>';
-                // [[[[[[ à compléter ]]]]]]
+
+                // [[[[[[ my addition ]]]]]]
+                $manager = new Manager($db);
+                $delete_table = $manager->dropTable();
+
                 echo '<p '.$center.'>La table a été supprimée</p>';
 
                 break;
@@ -89,7 +105,14 @@ $manager = new Manager($db);
 
                 echo '<h1 '.$center.'>Créer tout</h1>';
 
-                // [[[[[[ à compléter ]]]]]]
+                // [[[[[[ my addition ]]]]]]
+                foreach($data as $line){
+                    $manager = new Manager($db);
+                    $newVehicleObject = new Vehicle();
+                        var_dump($manager);
+                    $newVehicleObject->hydrate($line);
+                    $manager->create($newVehicleObject);   
+                }
 
                 echo '<p '.$center.'>Tous les véhicules ont été ajoutés</p>';
 
