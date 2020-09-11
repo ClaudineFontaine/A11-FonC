@@ -104,7 +104,7 @@ class Manager{
      */
     public function create(Vehicle $vehicle){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
 
         $sql =$this->db->prepare('INSERT INTO '.Manager::TABLE_NAME.' (model, builder, fuel, color, kilometer, immatriculation, technical_control) VALUES (:param1, :param2, :param3, :param4, :param5, :param6, :param7)');
         $sql->bindvalue(':param1', $vehicle->getModel());
@@ -129,7 +129,7 @@ class Manager{
 
         // [[[[[[ my addition ]]]]]]
         $sql->execute();
-        
+
     }
 
     /**
@@ -147,6 +147,8 @@ class Manager{
     public function delete(Vehicle $vehicle){
 
         // [[[[[[ à compléter ]]]]]]
+        $shunt2 = $this->db->prepare('DELETE FROM '.Manager::TABLE_NAME; 'WHERE id = 1');
+            $shunt2 -> execute();
 
     }
 
@@ -159,7 +161,10 @@ class Manager{
      */
     public function listOfVehiclesByBuilder(string $builder = 'Renault'){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
+        $sql_build = $this->db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' WHERE builder = '.$builder);
+        $sql_build->execute();
+        return array($sql_build);
 
     }
 
@@ -170,8 +175,10 @@ class Manager{
      */
     public function listOfInvalidVehicles(){
 
-        // [[[[[[ à compléter ]]]]]]
-
+        // [[[[[[ my addition ]]]]]]
+        $sql_inval = $this->db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' WHERE technical_control = "invalide"');
+        $sql_inval->execute();
+        return array($sql_inval);
     }
 
     /**
@@ -181,7 +188,10 @@ class Manager{
      */
     public function listOfGasolineVehicles(){
 
-        // [[[[[[ à compléter ]]]]]]
+        // [[[[[[ my addition ]]]]]]
+        $sql_inval = $this->db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' WHERE fuel = "essence"');
+        $sql_inval->execute();
+        return array($sql_inval);
 
     }
 
@@ -195,6 +205,9 @@ class Manager{
     public function listOfVehiclesByMoreKm(int $kilometer = 0){
 
         // [[[[[[ à compléter ]]]]]]
+        $sql_km = $this-> db->prepare('SELECT * FROM '.Manager::TABLE_NAME.' ORDER BY kilometer ASC;');
+        $sql_km -> execute();
+        $tableau = $sql_km -> fetchAll(PDO::FETCH_ASSOC);
 
     }
 
